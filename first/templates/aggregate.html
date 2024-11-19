@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Агрегация документов</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Агрегация документов</h1>
+        <form action="/aggregate_results" method="get">
+            <div class="form-group">
+                <label for="collection_name">Коллекция</label>
+                <select id="collection_name" name="collection_name">
+                    <option value="">-- Выберите --</option>
+                    {% for collection in collections %}
+                    <option value="{{ collection }}">{{ collection }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="query">Команда агрегации</label>
+                <textarea id="query" name="query" placeholder='Введите команду агрегации в формате JSON'></textarea>
+            </div>
+            <button type="submit">Агрегация</button>
+        </form>
+        <div id="aggregate-results"></div>
+    </div>
+</body>
+</html>

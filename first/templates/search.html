@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поиск документов</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Поиск документов</h1>
+        <form action="/search_results" method="get">
+            <div class="form-group">
+                <label for="collection_name">Коллекция</label>
+                <select id="collection_name" name="collection_name">
+                    <option value="">-- Выберите --</option>
+                    {% for collection in collections %}
+                    <option value="{{ collection }}">{{ collection }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="key">Ключ</label>
+                <input type="text" id="key" name="key" placeholder="Введите ключ">
+            </div>
+            <div class="form-group">
+                <label for="comparison">Знак сравнения</label>
+                <input type="text" id="comparison" name="comparison" placeholder="Введите знак сравнения (например, >)">
+            </div>
+            <div class="form-group">
+                <label for="value">Значение</label>
+                <input type="number" id="value" name="value" placeholder="Введите значение">
+            </div>
+            <button type="submit">Поиск</button>
+        </form>
+        <div id="search-results"></div>
+    </div>
+</body>
+</html>

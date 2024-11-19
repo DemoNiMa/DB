@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MongoDB JSON Viewer</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: auto; }
+        pre { background: #f4f4f4; padding: 10px; border: 1px solid #ddd; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; }
+        input, textarea, select { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; }
+        button { padding: 10px 20px; background-color: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>MongoDB JSON Viewer</h1>
+
+        <!-- Выбор коллекции -->
+        <h3>Выберите коллекцию:</h3>
+        <select id="collection-select" onchange="loadDocuments()">
+            <option value="">-- Выберите --</option>
+            {% for collection in collections %}
+            <option value="{{ collection }}">{{ collection }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- Кнопки действий -->
+        <div style="margin-top: 20px;">
+            <button onclick="createDocument()">Создать документ</button>
+        </div>
+
+        <hr>
+
+        <!-- Работа с документами -->
+        <h3>Документы:</h3>
+        <div id="documents"></div>
+
+        <hr>
+
+        <!-- Форма для ввода ключа и значения -->
+        <h3>Добавить ключ-значение:</h3>
+        <div class="form-group">
+            <label for="key-input">Ключ</label>
+            <input type="text" id="key-input" placeholder="Введите ключ (например, name или nested.key)">
+        </div>
+        <div class="form-group">
+            <label for="value-input">Значение</label>
+            <textarea id="value-input" placeholder="Введите значение"></textarea>
+        </div>
+        <button onclick="addKeyValue()">Добавить ключ-значение</button>
+        <button onclick="saveDocument()">Сохранить документ</button>
+
+        <hr>
+
+        <!-- Ссылки на страницы поиска и агрегации -->
+        <h3>Дополнительные функции:</h3>
+        <div>
+            <a href="/search"><button>Поиск документов</button></a>
+            <a href="/aggregate"><button>Агрегация документов</button></a>
+        </div>
+    </div>
+
+    <script>
+        let selectedCollection = "";
+        let currentDocumentId = null;
+
+        // Загрузка документов из коллекции
+        async function loadDocuments() {
+            const collection = document.getElementById("collection-select").value;
+            if (!collection) return;
+            selectedCollection = collection;
+            const response = await axios.get(`/documents/${collection}`);
+            const documents = response.data.documents;
+
+            const documentsDiv = document.getElementById("documents");
+            documentsDiv.innerHTML = documents.map(doc => `
+                <pre onclick="selectDocument('${doc._id}')">${JSON.stringify(doc, null, 2)}</pre>
+            `).join("");
+        }
+
+        // Создать новый документ
+        async function createDocument() {
+            if (!selectedCollection) {
+                alert("Сначала выберите коллекцию!");
+                return;
+            }
+            const response = await axios.post(`/documents/${selectedCollection}`);
+            alert(`Документ создан с ID: ${response.data.id}`);
+            loadDocuments();
+        }
+
+        // Выбрать документ
+        function selectDocument(documentId) {
+            currentDocumentId = documentId;
+            alert(`Выбран документ с ID: ${documentId}`);
+        }
+
+        // Добавить ключ-значение
+        async function addKeyValue() {
+            if (!currentDocumentId) {
+                alert("Сначала выберите документ!");
+                return;
+            }
+
+            const key = document.getElementById("key-input").value.trim();
+            const value = document.getElementById("value-input").value.trim();
+
+            if (!key) {
+                alert("Ключ не может быть пустым!");
+                return;
+            }
+
+            try {
+                const response = await axios.put(`/documents/${selectedCollection}/${currentDocumentId}`, {
+                    key,
+                    value
+                });
+                alert(response.data.message);
+                loadDocuments();
+            } catch (error) {
+                alert(`Ошибка: ${error.response.data.detail}`);
+            }
+        }
+
+        // Сохранить документ и очистить поля ключ-значение
+        async function saveDocument() {
+            if (!currentDocumentId) {
+                alert("Сначала выберите документ!");
+                return;
+            }
+
+            // Обновляем список документов
+            loadDocuments();
+
+            // Очищаем поля ключ-значение
+            document.getElementById("key-input").value = "";
+            document.getElementById("value-input").value = "";
+        }
+    </script>
+</body>
+</html>
