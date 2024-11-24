@@ -1,8 +1,10 @@
-﻿## **Как установить и запустить:**
+﻿## **MONGODB + FASTAPI**
 
- - [ ] **Сменить USER и GROUP!**
+https://moodle2.petrsu.ru/mod/page/view.php?id=108439
+ - [ ] **Обязательно сменить USER и GROUP!**
 
-**1. Футбол**
+## **1. Футбол**
+
 ```
 db = client["Group"]  
 collections = {  
@@ -28,7 +30,9 @@ collections = {
     └── style.css
 
 ```
-**2. Интернет-магазин**
+
+## **2. Интернет-магазин**
+
 ```
 db = client["Group"]  
 online_store = db["User-online-store"]
@@ -58,7 +62,7 @@ online_store = db["User-online-store"]
 
 ```
 
-**3. Общие настройки**
+## **3. Общие настройки**
 
  - ***Установка зависимостей:***
  ```
