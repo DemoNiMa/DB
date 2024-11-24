@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Выберите название товара и службу доставки</h2>
+    <form method="post" action="/products/buyers/delivery">
+        <label for="product_name">Название товара:</label>
+        <select id="product_name" name="product_name" required>
+            {% for product in products %}
+            <option value="{{ product }}">{{ product }}</option>
+            {% endfor %}
+        </select>
+        <label for="delivery_service">Служба доставки:</label>
+        <select name="delivery_service" id="delivery_service" required>
+            {% for service in delivery_services %}
+            <option value="{{ service }}">{{ service }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn">Показать покупателей</button>
+    </form>
+    {% if buyers is not none %}
+    <h2>Покупатели товара: {{ product_name }} с доставкой через {{ delivery_service }}</h2>
+    <ul>
+        {% for buyer in buyers %}
+        <li>{{ buyer }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endblock %}

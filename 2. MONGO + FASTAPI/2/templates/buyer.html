@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Выберите покупателя</h2>
+    <form method="post" action="/products/buyer">
+        <label for="buyer_name">Имя покупателя:</label>
+        <select id="buyer_name" name="buyer_name" required>
+            {% for buyer in buyers %}
+            <option value="{{ buyer }}">{{ buyer }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn">Показать товары</button>
+    </form>
+    {% if products is not none %}
+    <h2>Товары, купленные покупателем: {{ buyer_name }}</h2>
+    <ul>
+        {% for product in products %}
+        <li>{{ product.name }} - {{ product.price }} руб.</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endblock %}

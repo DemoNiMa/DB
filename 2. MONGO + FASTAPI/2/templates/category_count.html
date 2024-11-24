@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Количество товаров по категориям</h2>
+    <ul>
+        {% for category in category_counts %}
+        <li>{{ category._id }}: {{ category.count }} шт.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Исследуйте наш широкий ассортимент товаров и найдите то, что вам нужно.</h2>
+    <p>Добро пожаловать в интернет-магазин! Просматривайте наш обширный каталог товаров и наслаждайтесь удобством покупок из дома.</p>
+
+    <div class="btn-container">
+        <a href="/products/category" class="btn">Товары по категории</a>
+        <a href="/products/category/characteristics" class="btn">Характеристики товаров по категории</a>
+        <a href="/products/buyer" class="btn">Товары, купленные покупателем</a>
+        <a href="/products/color" class="btn">Товары по цвету</a>
+        <a href="/sales/total" class="btn">Общая сумма продаж</a>
+        <a href="/products/category/count" class="btn">Количество товаров по категориям</a>
+        <a href="/products/buyers" class="btn">Покупатели товара</a>
+        <a href="/products/buyers/delivery" class="btn">Покупатели товара по службе доставки</a>
+    </div>
+{% endblock %}

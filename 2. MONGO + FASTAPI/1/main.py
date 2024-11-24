@@ -8,15 +8,15 @@ from fastapi.staticfiles import StaticFiles
 import json
 from pydantic import BaseModel
 
-# Подключение к MongoDB
-client = MongoClient("mongodb://192.168.112.103:27017/")
+
+client = MongoClient("mongodb://195.133.13.249:27017")
 db = client["22303"]
 collections = {
     "Игры": db["Demoev-games"],
     "Футбольные команды": db["Demoev-teams"],
 }
 
-# Инициализация FastAPI
+
 app = FastAPI()
 
 templates = Jinja2Templates(directory="templates")
@@ -142,9 +142,9 @@ async def update_document(collection_name: str, document_id: str, input_data: Ke
 
     collection = collections[collection_name]
     try:
-        value = json.loads(input_data.value)  # Попытка преобразовать значение в JSON-объект
+        value = json.loads(input_data.value)
     except json.JSONDecodeError:
-        value = input_data.value  # Если не получилось, оставляем значение строкой
+        value = input_data.value
 
     # Используем точечную нотацию для вложенных ключей
     update_op = {"$set": {input_data.key: value}}

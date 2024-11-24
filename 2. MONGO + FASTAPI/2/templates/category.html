@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Выберите категорию</h2>
+    <form method="post" action="/products/category">
+        <label for="category_name">Категория:</label>
+        <select name="category_name" id="category_name">
+            {% for category in categories %}
+            <option value="{{ category }}">{{ category }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn">Показать товары</button>
+    </form>
+    {% if products %}
+    <h2>Товары в категории: {{ category_name }}</h2>
+    <ul>
+        {% for product in products %}
+        <li>{{ product }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endblock %}

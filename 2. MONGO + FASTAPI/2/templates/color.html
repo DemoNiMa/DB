@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Выберите цвет</h2>
+    <form method="post" action="/products/color">
+        <label for="color">Цвет:</label>
+        <select name="color" id="color">
+            {% for color in colors %}
+            <option value="{{ color }}">{{ color }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn">Показать товары</button>
+    </form>
+    {% if products %}
+    <h2>Товары с цветом: {{ color }}</h2>
+    <ul>
+        {% for product in products %}
+        <li>{{ product.name }} - {{ product.manufacturer }} - {{ product.price }} руб.</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endblock %}
