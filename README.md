@@ -1,97 +1,79 @@
-﻿## Установка и настройка MongoDB SERVER на Ubuntu 22.04
+﻿## **Как установить и запустить:**
 
-**1. Установка MongoDB** 
+ - [ ] **Сменить USER и GROUP!**
 
-1.  Обновите пакеты:
+**1. Футбол**
 ```
-sudo apt update && sudo apt upgrade -y
-```
-    
-2.  Импортируйте ключ репозитория MongoDB: 
-``` bash
-curl -fsSL [https://pgp.mongodb.com/server-6.0.asc](https://pgp.mongodb.com/server-6.0.asc) | sudo gpg --dearmor -o /usr/share/keyrings/mongodb-server-6.0.gpg
-```
-    
-3.  Добавьте репозиторий MongoDB: 
-```
-echo "deb [signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
-```
-    
-4.  Установите MongoDB:
-```
-sudo apt update 
-sudo apt install -y mongodb-org
-```
-    
-5.  Запустите MongoDB и настройте автозапуск: 
-```
-sudo systemctl start mongod 
-sudo systemctl enable mongod
-```
-    
-6.  Проверьте статус службы: 
-```
-sudo systemctl status mongod
-```
-    
- **2. Настройка для удалённого подключения**
-
-7.  Откройте конфигурационный файл MongoDB: 
-```
-sudo nano /etc/mongod.conf
+db = client["Group"]  
+collections = {  
+    "Игры": db["User-games"],  
+    "Футбольные команды": db["User-teams"],  
+}
 ```
 
-8.  Измените настройку bindIp для разрешения подключений со всех IP: 
+**Структура:**
 ```
-net: 
-	bindIp: 0.0.0.0 
-	port: 27017
+1/
+│
+├── main.py                    # Основной файл приложения FastAPI
+│
+├── templates/                 # HTML-шаблоны для отображения страниц
+│   ├── aggregate.html
+│   ├── aggregate_results.html
+│   ├── index.html
+│   ├── search.html
+│   └── search_results.html
+│
+└── static/                    # Статические файлы (CSS)
+    └── style.css
+
 ```
-9.  Перезапустите MongoDB для применения изменений:
-``` 
-sudo systemctl restart mongod
+**2. Интернет-магазин**
+```
+db = client["Group"]  
+online_store = db["User-online-store"]
+```
+**Структура:**
+```
+2/
+│
+├── main.py                    # Основной файл приложения FastAPI
+├── generate_products.py       # Скрипт для генерации тестовых данных
+│
+├── templates/                 # HTML-шаблоны для отображения страниц
+│   ├── base.html
+│   ├── index.html
+│   ├── products.html
+│   ├── category.html
+│   ├── characteristics.html
+│   ├── buyer.html
+│   ├── color.html
+│   ├── total_sales.html
+│   ├── category_count.html
+│   ├── product_buyers.html
+│   └── product_buyers_delivery.html
+│
+└── static/                    # Статические файлы (CSS)
+    └── styles.css
+
+```
+
+**3. Общие настройки**
+
+ - ***Установка зависимостей:***
  ```
-    
-**3. Настройка файервола**
-
-10. Установите UFW
-```
-sudo apt update
-sudo apt install ufw -y
+ pip install -r requirements.txt
  ```
- 11. После установки выполните команды для открытия порта MongoDB + **SSH**:
-```
-sudo ufw status
-sudo ufw allow 27017/tcp
-sudo ufw allow 22/tcp
-sudo ufw enable
-sudo ufw status
-```
-**4.  Безопасность** 
 
-11. SSH-ключ (желательно несколько)
-12. SSH-тунель или VPN
-13. Ограничение по IP 
+ -  ***Запуск через UVICORN:*** 
 ```
-sudo iptables -A INPUT -p tcp -s YOUR_HOME_IP --dport 27017 -j ACCEPT
-sudo iptables -A INPUT -p tcp --dport 27017 -j DROP
+uvicorn main:app --host 127.0.0.1 --port 4000 --reload 
 ```
-14. Авторизация
+ *или* 
+ ```
+   uvicorn main:app --reload
+```
+   
+   `main` - имя исполняемого файла 
+   `--host` и `--port` не обязательные параметры запуска.
 
-**В файле `/etc/mongod.conf` найти секцию `security` и добавить:**
-```
-security:
-  authorization: enabled
-```
-**Создайте пользователя для администрирования**:
-Подключиться к `mongosh` и создать пользователя:
-```
-use admin
-db.createUser({
-  user: "admin",
-  pwd: "securepassword",
-  roles: [{ role: "root", db: "admin" }]
-})
-```
-
-Подключение - `"mongodb://admin:securepassword@SERVER_IP:27017/admin"`

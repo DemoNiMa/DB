@@ -5,21 +5,18 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from generate_products import generate_products
 
-
 client = MongoClient("mongodb://195.133.13.249:3301")
 db = client["22303"]
 online_store = db["Demoev-online-store"]
 
-
 app = FastAPI()
 
-# Настройки шаблонов и статичных файлов
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 def initialize_database():
     if online_store.count_documents({}) == 0:
-        products = generate_products(20)  # Генерация товаров
+        products = generate_products(20)
         online_store.insert_many(products)
 
 initialize_database()
