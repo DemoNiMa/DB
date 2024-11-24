@@ -88,7 +88,7 @@ def display_text(event):
     else:
         text_label.config(text=text)
 
-client = redis.Redis(host='192.168.112.103', password='student')
+client = redis.Redis(host='195.133.13.249', password='redis-password')
 
 app = Tk()
 app.title("Настройки текста пользователя")
