@@ -9,7 +9,7 @@ import json
 from pydantic import BaseModel
 
 
-client = MongoClient("mongodb://195.133.13.249:27017")
+client = MongoClient("mongodb://195.133.13.249:3301")
 db = client["22303"]
 collections = {
     "Игры": db["Demoev-games"],
