@@ -3,7 +3,7 @@
 Шаг 1. Установка MongoDB
 
 1.  Обновите пакеты:
-`sudo apt update && sudo apt upgrade -y`
+```sudo apt update && sudo apt upgrade -y```
     
 2.  Импортируйте ключ репозитория MongoDB: 
 ``` bash
