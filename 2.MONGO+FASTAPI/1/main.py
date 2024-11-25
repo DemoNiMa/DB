@@ -58,7 +58,7 @@ async def search_documents(request: Request, collection_name: str = Query(...), 
 
     documents = list(collection.find(query))
     for doc in documents:
-        doc["_id"] = str(doc["_id"])  # Преобразуем ObjectId в строку для передачи в JSON
+        doc["_id"] = str(doc["_id"])
     return templates.TemplateResponse("search_results.html", {"request": request, "documents": documents})
 
 @app.get("/aggregate_results", response_class=HTMLResponse)
@@ -75,7 +75,7 @@ async def aggregate_documents(request: Request, collection_name: str = Query(...
 
     documents = list(collection.aggregate(aggregation_query))
     for doc in documents:
-        doc["_id"] = str(doc["_id"])  # Преобразуем ObjectId в строку для передачи в JSON
+        doc["_id"] = str(doc["_id"])
     return templates.TemplateResponse("aggregate_results.html", {"request": request, "documents": documents})
 
 
@@ -98,8 +98,9 @@ async def get_documents(collection_name: str):
     collection = collections[collection_name]
     documents = list(collection.find())
     for doc in documents:
-        doc["_id"] = str(doc["_id"])  # Преобразуем ObjectId в строку для передачи в JSON
+        doc.pop("_id", None)
     return {"documents": documents}
+
 
 @app.post("/documents/{collection_name}")
 async def create_document(collection_name: str):
