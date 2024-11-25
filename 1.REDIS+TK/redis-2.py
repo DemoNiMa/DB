@@ -4,6 +4,7 @@ from tkinter import ttk
 from tkinter import colorchooser, messagebox, font
 import re
 
+USER = '22303-Demoev'
 def is_valid_count(value):
     return re.match('^\d{,2}$' , value) is not None
 
@@ -13,7 +14,7 @@ def refresh_sporstman():
     for sportsman in sportsmans:
         points = 0
         for keys in client.keys():
-            pattern = f'22303-Demoev-[А-Яа-я0-9]+-{sportsman}+$'
+            pattern = f'{USER}-[А-Яа-я0-9]+-{sportsman}+$'
             key = keys.decode()
             if re.match(pattern, key):
                 sportsman_key = client.hgetall(key)
@@ -70,7 +71,9 @@ client = redis.Redis(host='195.133.13.249', password='redis-password')
 
 app = Tk()
 app.title("Мониторинг спортивных соревнований")
-app.geometry('570x650')
+app.geometry('600x530')
+app.resizable(False, False)  # Запрещаем изменение размера окна
+
 
 frame = Frame(app, borderwidth=4, relief=SOLID)
 frame.pack(fill=X, padx=10, pady=10)

@@ -4,18 +4,21 @@ from tkinter import ttk
 from tkinter import colorchooser, messagebox, font
 import re
 
-
 USER = '22303-Demoev-'
 def choose_color():
     color = colorchooser.askcolor()
     if color:
         color_font_var.set(color[1])
+        display_text(None)
+
 
 def is_valid_size(value):
     return re.match('^\d{,2}$', value) is not None
 
+
 def is_valid_key(value):
     return re.fullmatch('^\d{,5}-[A-Za-z]+-[A-Za-z0-9]+$', value) is not None
+
 
 def refresh_keys():
     keys = []
@@ -24,6 +27,20 @@ def refresh_keys():
         if re.match(f'{USER}[A-Za-z0-9]+$', text):
             keys.append(text)
     style_text_box['values'] = keys
+
+
+def load_settings(key):
+    settings = client.hgetall(key)
+    if settings:
+        name_font_var.set(settings[b'name_font'].decode())
+        size_font_entry.delete(0, END)
+        size_font_entry.insert(0, settings[b'size_font'].decode())
+        color_font_var.set(settings[b'color_font'].decode())
+        type_font_var.set(settings[b'type_font'].decode())
+        display_text(None)
+    else:
+        messagebox.showwarning("Ошибка", "Настройки для этого ключа не найдены")
+
 
 def save_settings():
     key = key_entry.get()
@@ -66,6 +83,7 @@ def save_settings():
     refresh_keys()
     messagebox.showinfo("Успех", "Настройки сохранены")
 
+
 def display_text(event):
     text = text_entry.get()
     selected = style_text_box.get()
@@ -86,11 +104,20 @@ def display_text(event):
     else:
         text_label.config(text=text)
 
+
+def on_key_selected(event):
+    selected_key = style_text_box.get()
+    if selected_key:
+        load_settings(selected_key)
+
+
 client = redis.Redis(host='195.133.13.249', password='redis-password')
 
 app = Tk()
 app.title("Настройки текста пользователя")
-app.geometry('570x650')
+app.geometry('600x520')
+app.resizable(False, False)
+
 
 frame = Frame(app, borderwidth=4, relief=SOLID)
 frame.pack(fill=X, padx=10, pady=10)
@@ -99,17 +126,20 @@ Label(frame, text='Ключ для сохранения: ', font=('Arial', 16)).
 key_entry = Entry(frame, font=('Arial', 16))
 key_entry.insert(0, USER)
 key_entry.grid(row=0, column=1, padx=10, pady=10)
+key_entry.bind("<KeyRelease>", display_text)
 
 Label(frame, text='Название шрифта: ', font=('Arial', 16)).grid(row=1, column=0, padx=10, pady=10, sticky='w')
 name_font = font.families()
 name_font_var = StringVar()
 name_font_box = ttk.Combobox(frame, font=('Arial', 16), textvariable=name_font_var, values=name_font, state="readonly")
 name_font_box.grid(row=1, column=1, padx=10, pady=10)
+name_font_box.bind("<<ComboboxSelected>>", display_text)
 
 Label(frame, text='Размер шрифта: ', font=('Arial', 16)).grid(row=2, column=0, padx=10, pady=10, sticky='w')
 check_size = (frame.register(is_valid_size), "%P")
 size_font_entry = Entry(frame, font=('Arial', 16), validate="key", validatecommand=check_size)
 size_font_entry.grid(row=2, column=1, padx=10, pady=10)
+size_font_entry.bind("<KeyRelease>", display_text)
 
 Label(frame, text='Цвет шрифта: ', font=('Arial', 16)).grid(row=3, column=0, padx=10, pady=10, sticky='w')
 color_font_var = StringVar()
@@ -121,6 +151,7 @@ type = ['normal', 'bold', 'italic']
 type_font_var = StringVar(value=type[0])
 type_font_box = ttk.Combobox(frame, font=('Arial', 16), textvariable=type_font_var, values=type, state="readonly")
 type_font_box.grid(row=4, column=1, padx=10, pady=10)
+type_font_box.bind("<<ComboboxSelected>>", display_text)
 
 save_button = Button(frame, text="Сохранить настройки", font=('Arial', 16), command=save_settings)
 save_button.grid(row=5, columnspan=2, padx=10, pady=10)
@@ -134,11 +165,10 @@ text_entry.bind("<KeyRelease>", display_text)
 
 Label(frame2, text='Готовые стили: ', font=('Arial', 16)).grid(row=1, column=0, padx=10, pady=10, sticky='w')
 style_text_box = ttk.Combobox(frame2, font=('Arial', 16), state="readonly")
-style_text_box.bind("<<ComboboxSelected>>", display_text)
+style_text_box.bind("<<ComboboxSelected>>", on_key_selected)
 style_text_box.grid(row=1, column=1, padx=10, pady=10)
 refresh_keys()
 
 text_label = Label(frame2, text='', font=('Arial', 16))
 text_label.grid(row=3, columnspan=2, padx=10, pady=10, sticky='n')
-
 app.mainloop()
