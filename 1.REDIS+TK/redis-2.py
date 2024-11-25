@@ -47,7 +47,7 @@ def save_settings():
         if key == key_user.decode():
             sportsman_referee = client.hgetall(key)
             count_new = int(sportsman_referee[b'count'].decode())
-            count_new += int(count)
+            count_new = int(count)
             
             info = {'referee': referee,
                     'sportsman': sportsman,
@@ -66,7 +66,7 @@ def save_settings():
     refresh_sporstman()
     messagebox.showinfo("Успех", "Данные сохранены")
     
-client = redis.Redis(host='192.168.112.103', password='student')
+client = redis.Redis(host='195.133.13.249', password='redis-password')
 
 app = Tk()
 app.title("Мониторинг спортивных соревнований")
