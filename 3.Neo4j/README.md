@@ -115,73 +115,73 @@ CREATE (:Station{name: 'ул. Хейкконена'}),
 ```
 2. **Создание организаций:**
 ```
-CREATE (:Organization{name: 'Светофор', category:'Магазин'}),
-       (:Organization{name: 'Школа №46', category:'Учебная организация'}),
-       (:Organization{name: 'Семерочка', category:'Магазин'}),
-       (:Organization{name: 'Лотос Плаза', category:'ТЦ'}),
-       (:Organization{name: 'ИМО', category:'Учебная организация'}),
-       (:Organization{name: 'Беккер', category:'Магазин'}),
-       (:Organization{name: 'Суши шоп', category:'Магазин'}),
-       (:Organization{name: 'Театралка', category:'Учебная организация'}),
-       (:Organization{name: 'Весна', category:'ТЦ'}),
-       (:Organization{name: 'Одежда', category:'Магазин'}),
-       (:Organization{name: 'Школа №22', category:'Учебная организация'}),
-       (:Organization{name: 'Бочонок', category:'Магазин'}),
-       (:Organization{name: 'Магнит', category:'Магазин'}),
-       (:Organization{name: 'ФГБОУ ВО Речное училище', category:'Учебная организация'}),
-       (:Organization{name: 'Красное и белое', category:'Магазин'}),
-       (:Organization{name: 'Восторг', category:'Магазин'}),
-       (:Organization{name: 'Пирамида', category:'Магазин'}),
-       (:Organization{name: 'ПетрГУ', category:'Учебная организация'}),
-       (:Organization{name: 'Детский мир', category:'Магазин'}),
-       (:Organization{name: 'Пятерочка', category:'Магазин'}),
-       (:Organization{name: 'Школа №35', category:'Учебная организация'})
+CREATE (:Organization{name: 'Светофор', category:'Магазин'})
+CREATE (:Organization{name: 'Школа №46', category:'Учебная организация'})
+CREATE (:Organization{name: 'Семерочка', category:'Магазин'})
+CREATE (:Organization{name: 'Лотос Плаза', category:'ТЦ'})
+CREATE (:Organization{name: 'ИМО', category:'Учебная организация'})
+CREATE (:Organization{name: 'Беккер', category:'Магазин'})
+CREATE (:Organization{name: 'Суши шоп', category:'Магазин'})
+CREATE (:Organization{name: 'Театралка', category:'Учебная организация'})
+CREATE (:Organization{name: 'Весна', category:'ТЦ'})
+CREATE (:Organization{name: 'Одежда', category:'Магазин'})
+CREATE (:Organization{name: 'Школа №22', category:'Учебная организация'})
+CREATE (:Organization{name: 'Бочонок', category:'Магазин'})
+CREATE (:Organization{name: 'Магнит', category:'Магазин'})
+CREATE (:Organization{name: 'ФГБОУ ВО Речное училище', category:'Учебная организация'})
+CREATE (:Organization{name: 'Красное и белое', category:'Магазин'})
+CREATE (:Organization{name: 'Восторг', category:'Магазин'})
+CREATE (:Organization{name: 'Пирамида', category:'Магазин'})
+CREATE (:Organization{name: 'ПетрГУ', category:'Учебная организация'})
+CREATE (:Organization{name: 'Детский мир', category:'Магазин'})
+CREATE (:Organization{name: 'Пятерочка', category:'Магазин'})
+CREATE (:Organization{name: 'Школа №35', category:'Учебная организация'})
 ```
 
 3. **Связь организаций с остановками:**
 ```
 MATCH (a:Station{name: 'ул. Хейкконена'}),  (b:Organization{name: 'Светофор'})
-CREATE  (a)<-[:NEARBY]-(b);
+CREATE  (a)<-[:nearby]-(b);
 MATCH (a:Station{name: 'ТЦ “Столица”'}),  (b:Organization{name: 'Школа №46'})
-CREATE  (a)<-[:NEARBY]-(b);
+CREATE  (a)<-[:nearby]-(b);
 MATCH (a:Station{name: 'Детская Республиканская больница'}),  (b:Organization{name: 'Семерочка'})
-CREATE  (a)<-[:NEARBY]-(b);
+CREATE  (a)<-[:nearby]-(b);
 MATCH (a:Station{name: 'Сигма'}),  (b:Organization{name: 'Лотос Плаза'})
-CREATE  (a)<-[:NEARBY]-(b);
+CREATE  (a)<-[:nearby]-(b);
 MATCH (a:Station{name: 'ул. Ватутина'}),  (b:Organization{name: 'ИМО'})
-CREATE  (a)<-[:NEARBY]-(b);
+CREATE  (a)<-[:nearby]-(b);
 MATCH (a:Station{name: 'ЖД вокзал'}),  (b:Organization{name: 'Беккер'})
-CREATE  (a)<-[:NEARBY]-(b);
+CREATE  (a)<-[:nearby]-(b);
 MATCH (a:Station{name: 'пл. Гагарина'}),  (b:Organization{name: 'Суши шоп'})
-CREATE  (a)<-[:NEARBY]-(b);
+CREATE  (a)<-[:nearby]-(b);
 MATCH (a:Station{name: 'Детская художественная школа'}),  (b:Organization{name:'Театралка'})
-CREATE  (a)<-[:NEARBY]-(b);
+CREATE  (a)<-[:nearby]-(b);
 MATCH (a:Station{name: 'СК “Курган”'}),  (b:Organization{name: 'Весна'})
-CREATE  (a)<-[:NEARBY]-(b);
+CREATE  (a)<-[:nearby]-(b);
 MATCH (a:Station{name: 'ул. Лыжная'}),  (b:Organization{name: 'Одежда'})
-CREATE  (a)<-[:NEARBY]-(b);
+CREATE  (a)<-[:nearby]-(b);
 MATCH (a:Station{name: 'ул. Антонова'}),  (b:Organization{name: 'Школа №22'})
-CREATE  (a)<-[:NEARBY]-(b);
+CREATE  (a)<-[:nearby]-(b);
 MATCH (a:Station{name: 'ул. Сегежская'}),  (b:Organization{name: 'Бочонок'})
-CREATE  (a)<-[:NEARBY]-(b);
+CREATE  (a)<-[:nearby]-(b);
 MATCH (a:Station{name: 'Ключевское шоссе'}),  (b:Organization{name: 'Магнит'})
-CREATE  (a)<-[:NEARBY]-(b);
+CREATE  (a)<-[:nearby]-(b);
 MATCH (a:Station{name: 'Речное училище'}),  (b:Organization{name: 'ФГБОУ ВО Речное училище'})
-CREATE  (a)<-[:NEARBY]-(b);
+CREATE  (a)<-[:nearby]-(b);
 MATCH (a:Station{name: 'ул. Маршала Мерецкова'}),  (b:Organization{name: 'Красное и белое'})
-CREATE  (a)<-[:NEARBY]-(b);
+CREATE  (a)<-[:nearby]-(b);
 MATCH (a:Station{name: 'ул. Правды'}),  (b:Organization{name: 'Восторг'})
-CREATE  (a)<-[:NEARBY]-(b);
+CREATE  (a)<-[:nearby]-(b);
 MATCH (a:Station{name: 'пр. Кирова'}),  (b:Organization{name: 'Пирамида'})
-CREATE  (a)<-[:NEARBY]-(b);
+CREATE  (a)<-[:nearby]-(b);
 MATCH (a:Station{name: 'Гос. университет'}),  (b:Organization{name: 'ПетрГУ'})
-CREATE  (a)<-[:NEARBY]-(b);
+CREATE  (a)<-[:nearby]-(b);
 MATCH (a:Station{name: 'наб. Варкауса'}),  (b:Organization{name: 'Детский мир'})
-CREATE  (a)<-[:NEARBY]-(b);
+CREATE  (a)<-[:nearby]-(b);
 MATCH (a:Station{name: 'ул. Куйбышева'}),  (b:Organization{name: 'Пятерочка'})
-CREATE  (a)<-[:NEARBY]-(b);
+CREATE  (a)<-[:nearby]-(b);
 MATCH (a:Station{name: 'ул. Московская'}),  (b:Organization{name: 'Школа №35'})
-CREATE  (a)<-[:NEARBY]-(b);
+CREATE  (a)<-[:nearby]-(b);
 ```
 4. **Создание маршрутов:**
 -   **Маршрут №17**:
