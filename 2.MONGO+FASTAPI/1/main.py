@@ -98,7 +98,7 @@ async def get_documents(collection_name: str):
     collection = collections[collection_name]
     documents = list(collection.find())
     for doc in documents:
-        doc.pop("_id", None)
+        doc["_id"] = str(doc["_id"])
     return {"documents": documents}
 
 
