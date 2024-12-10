@@ -1,4 +1,4 @@
-﻿# Neo4j
+﻿# Neo4j 4.1.13 (community)
 
 https://moodle2.petrsu.ru/mod/page/view.php?id=108440
 
